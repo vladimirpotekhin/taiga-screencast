@@ -1,0 +1,43 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <tui-textfield>
+        <label tuiLabel>Project name</label>
+        <input placeholder="Project name" tuiTextfield formControlName="name"/>
+    </tui-textfield>
+
+    <tui-select formControlName="organization">
+        Organization
+        <input placeholder="Organization" tuiTextfieldLegacy/>
+        <tui-data-list-wrapper *tuiDataList [items]="organizations"/>
+    </tui-select>
+
+    <tui-textfield>
+        <label tuiLabel>Password</label>
+        <input
+                placeholder="Password"
+                tuiTextfield
+                type="password"
+                formControlName="password"
+        />
+        <tui-icon tuiPassword/>
+    </tui-textfield>
+
+    <tui-select formControlName="region" [valueContent]="valueContent" [tuiTextfieldLabelOutside]="true">
+        Region
+        <input placeholder="Region" tuiTextfieldLegacy/>
+        <tui-data-list-wrapper *tuiDataList [items]="regions" [itemContent]="valueContent"/>
+    </tui-select>
+
+    <button tuiButton type="submit"> Submit</button>
+
+    <ng-template #valueContent let-item>
+        <div tuiCell="m">
+            <img
+                    [alt]="item.isoCode"
+                    [src]="item.isoCode | tuiFlag"
+                    [style.border-radius.%]="50"
+            />
+            <span> {{ item.name }} </span>
+        </div>
+
+    </ng-template>
+</form>
