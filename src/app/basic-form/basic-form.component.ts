@@ -1,12 +1,29 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TuiButton, TuiFlagPipe, TuiIcon, TuiTextfield } from '@taiga-ui/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  TuiButton,
+  TuiError,
+  TuiFlagPipe,
+  TuiIcon,
+  TuiTextfield,
+} from '@taiga-ui/core';
 import {
   TuiSelectModule,
   TuiTextfieldControllerModule,
 } from '@taiga-ui/legacy';
-import { TuiPassword } from '@taiga-ui/kit';
+import {
+  TuiFieldErrorPipe,
+  TuiPassword,
+  TuiTooltip,
+  tuiValidationErrorsProvider,
+} from '@taiga-ui/kit';
 import { TuiCell } from '@taiga-ui/layout';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-basic-form',
@@ -18,12 +35,17 @@ import { TuiCell } from '@taiga-ui/layout';
     TuiIcon,
     TuiFlagPipe,
     TuiTextfieldControllerModule,
-    TuiCell,
     TuiButton,
+    TuiTooltip,
+    TuiError,
+    AsyncPipe,
+    TuiFieldErrorPipe,
+    TuiCell,
   ],
   templateUrl: './basic-form.component.html',
   styleUrl: './basic-form.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [tuiValidationErrorsProvider({ required: 'Required' })],
 })
 export class BasicFormComponent {
   readonly organizations = ['Taiga UI', 'Maskito'];
@@ -42,7 +64,7 @@ export class BasicFormComponent {
   ];
 
   readonly form = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', Validators.required),
     organization: new FormControl(null),
     region: new FormControl(null),
     password: new FormControl(''),
