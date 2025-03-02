@@ -1,0 +1,14 @@
+<div>
+  Name: {{ context.data.name || 'Enter you project name' }}
+</div>
+<div>
+  Organization: {{ context.data.organization || 'Enter organization name' }}
+</div>
+<div>
+  Region: {{ context.data.region?.name || 'Enter region' }}
+</div>
+
+
+<div class="footer">
+  <button tuiButton (click)="onClose(context.data.name)">Close</button>
+</div>

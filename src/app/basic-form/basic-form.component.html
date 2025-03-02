@@ -1,3 +1,8 @@
+<button tuiButton class="back" appearance="action-grayscale" iconStart="@tui.chevron-left" (click)="onBack()"
+        size="m">
+  Back
+</button>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
     <tui-textfield iconStart="@tui.folder-pen">
@@ -6,10 +11,7 @@
       <tui-icon tuiTooltip="Name of the project"/>
     </tui-textfield>
 
-    <tui-error
-      formControlName="name"
-      [error]="[] | tuiFieldError | async"
-    />
+    <tui-error formControlName="name" [error]="[] | tuiFieldError | async"/>
   </div>
 
   <tui-select formControlName="organization">
