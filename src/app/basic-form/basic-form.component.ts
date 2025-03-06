@@ -19,6 +19,7 @@ import {
 } from '@taiga-ui/legacy';
 import {
   TUI_CONFIRM,
+  TuiConfirmService,
   TuiFieldErrorPipe,
   TuiPassword,
   TuiTooltip,
@@ -56,11 +57,15 @@ export interface BasicForm {
   templateUrl: './basic-form.component.html',
   styleUrl: './basic-form.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [tuiValidationErrorsProvider({ required: 'Required' })],
+  providers: [
+    tuiValidationErrorsProvider({ required: 'Required' }),
+    TuiConfirmService,
+  ],
 })
 export class BasicFormComponent {
   readonly organizations = ['Taiga UI', 'Maskito'];
   private readonly dialog = inject(TuiDialogService);
+  private readonly confirm = inject(TuiConfirmService);
 
   readonly regions = [
     {
@@ -87,13 +92,25 @@ export class BasicFormComponent {
   });
 
   onSubmit(): void {
+    const confirm = this.confirm.withConfirm({
+      label: 'Are you sure?',
+      data: {
+        content: 'Your data will be lost',
+      },
+    });
+
+    this.confirm.markAsDirty();
+
     this.dialog
       .open(new PolymorpheusComponent(MyDialogComponent), {
         label: 'Form data',
         size: 'm',
         data: this.form.value,
+        required: true,
+        closeable: confirm,
+        dismissible: confirm,
       })
-      .subscribe(console.log);
+      .subscribe({ complete: console.log, error: console.log });
   }
 
   onBack(): void {
